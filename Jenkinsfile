@@ -8,7 +8,6 @@ pipeline {
       steps {
         script {
           dockerimage = docker.build registry
-          }
         }
       }
     }
