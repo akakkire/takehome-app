@@ -8,17 +8,12 @@ pipeline {
   REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
   }
   stages {
-    stage('Logging into AWS ECR') {
-      steps {
-        script {
-          sh "aws ecr get-login-password — region ${AWS_DEFAULT_REGION} | docker login — username AWS — password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
-        }
-      }
-    }
     stage('create docker image') {
       steps {
         script {
-          dockerImage = docker.build "${IMAGE_REPO_NAME}:${IMAGE_TAG}"
+          docker.withRegistry("519927740453.dkr.ecr.us-east-1.amazonaws.com/takehome-ecr", "ecr:us-east-1:67dd93aa-0158-4343-808c-a07957103457") {
+            docker.image("takehome-app").push()
+          }
         }
       }
     }
